@@ -1,16 +1,22 @@
+import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
+import 'package:agriculture_app/features/cubit/note/note_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NotesPage extends StatelessWidget {
+/* class NotesPage extends StatelessWidget {
   const NotesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container();
   }
-}
-/* 
-import 'package:flutter/cupertino.dart';
+} */
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../product/widget/note_item.dart';
+import '../model/note/note_model.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({Key? key}) : super(key: key);
@@ -21,13 +27,14 @@ class NotesPage extends StatefulWidget {
 
 class _NotesPageState extends State<NotesPage> {
   ScrollController _scrollController = ScrollController();
+  TextEditingController _textEditingController = TextEditingController();
   int _currentMax = 10;
   List<String> dummyList = List.generate(10, (index) => "Item: ${index + 1}");
 
   @override
   void initState() {
     _scrollController.addListener(() {
-      if ( _scrollController.position.maxScrollExtent == _scrollController.offset) {
+      if (_scrollController.position.maxScrollExtent == _scrollController.offset) {
         dummyList = List.generate(_currentMax, (index) => "Item: ${index + 1}");
         _getMoreList();
       }
@@ -36,21 +43,28 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      controller: _scrollController,
-      itemBuilder: (context, index) {
-        if (index == dummyList.length) {
-          return CupertinoActivityIndicator();
-        }
-        return Container(
-          child: Text("Notes"),
-          //NoteItem(note: Note.cre, noteContentController: noteContentController),
-        );
-      },
-      itemCount: dummyList.length + 1,
-      shrinkWrap: true,
-    );
+    return BlocProvider(
+        create: (context) => NoteCubit(NoteInitialState()),
+        child: BlocBuilder<NoteCubit, NoteState>(
+          builder: (context, state){
+            return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            controller: _scrollController,
+            itemBuilder: (context, index) {
+              if (index == dummyList.length) {
+                return const CupertinoActivityIndicator();
+              }
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: NoteItem(
+                    note: Note.create(title: "title", content: "content"),
+                    noteContentController: TextEditingController()),
+              );
+            },
+            itemCount: dummyList.length + 1,
+            shrinkWrap: true,
+          );
+        }));
   }
 
   void _getMoreList() {
@@ -61,4 +75,4 @@ class _NotesPageState extends State<NotesPage> {
     _currentMax = _currentMax + 10;
     setState(() {});
   }
-} */
+}
