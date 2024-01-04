@@ -1,20 +1,8 @@
+import 'package:agriculture_app/core/extension/context_extension.dart';
 import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
 import 'package:agriculture_app/features/cubit/note/note_state.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-/* class NotesPage extends StatelessWidget {
-  const NotesPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-} */
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../product/widget/note_item.dart';
 import '../model/note/note_model.dart';
 
@@ -26,8 +14,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  ScrollController _scrollController = ScrollController();
-  TextEditingController _textEditingController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   int _currentMax = 10;
   List<String> dummyList = List.generate(10, (index) => "Item: ${index + 1}");
 
@@ -55,7 +42,7 @@ class _NotesPageState extends State<NotesPage> {
                 return const CupertinoActivityIndicator();
               }
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: context.paddingMediumHorizontal,
                 child: NoteItem(
                     note: Note.create(title: "title", content: "content"),
                     noteContentController: TextEditingController()),
