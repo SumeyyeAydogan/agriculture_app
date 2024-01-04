@@ -5,8 +5,8 @@ class AgricultureTheme {
     primarySwatch: Colors.blue,
     colorScheme: const ColorScheme.light(
         primary: Color(0xff4ab1b3),
-        secondary: Color(0xFFED6B5E),
-        inversePrimary: Color(0xFF78C4C5),
+        secondary: Color(0xFFAAD9BB),
+        inversePrimary: Color(0xFF80BCBD),
         error: Color(0xfffcb064),
         primaryContainer: Color(0xfff8f4f4),
         secondaryContainer: Color(0xFFEDF4F3)),
