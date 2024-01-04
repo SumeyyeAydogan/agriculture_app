@@ -70,7 +70,11 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
                         label: "Notes",
                       ),
                     ]),
-                body: screenList[state.tabController!.index]);
+                body: screenList[state.tabController!.index],
+                floatingActionButton: state.tabController!.index == 3 
+                ? FloatingActionButton(onPressed: (){}, backgroundColor: context.theme.colorScheme.error, child: Icon(Icons.edit),)
+                : null,
+                );
           } else {
             return const SizedBox();
           }
