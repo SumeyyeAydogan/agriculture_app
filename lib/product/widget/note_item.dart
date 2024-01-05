@@ -9,7 +9,9 @@ import '../../features/model/note/note_model.dart';
 class NoteItem extends StatelessWidget {
   final Note note;
   final TextEditingController noteContentController;
-  const NoteItem({Key? key, required this.note, required this.noteContentController}) : super(key: key);
+  final TextEditingController noteTitleController;
+
+  const NoteItem({Key? key, required this.note, required this.noteContentController, required this.noteTitleController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,37 +19,61 @@ class NoteItem extends StatelessWidget {
       builder: (context, state) {
         Future.microtask(() {
           noteContentController.text = note.content;
+          noteTitleController.text = note.title;
         }); //Futuremicrotask
-        return Container(
-          margin: context.paddingMediumLowVertical,
-          padding: context.paddingMediumHorizontal,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.2),
-                blurRadius: 10, //dağıtmaya yarıyor.
+        return Column(
+          children: [
+            SizedBox(height: context.mediumValue,),
+            Expanded(
+              flex: 80,
+              child: Container(
+                //height: context.extraHighValue,
+                //margin: context.paddingMediumVertical,
+                padding: context.paddingMediumHorizontal,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.2),
+                      blurRadius: 10, //dağıtmaya yarıyor.
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: noteContentController,
+                  minLines: 1,
+                  maxLines: null,
+                  textInputAction: TextInputAction.done, //klavyede ok işareti olmasını sağlar.
+                  decoration: const InputDecoration(border: InputBorder.none),
+                  onSubmitted: (newValue) async {
+                    if (newValue.length > 3) {
+                      context.read<NoteCubit>().editNoteContent(newValue, note);
+                    }
+                  },
+                ),
               ),
-            ],
-          ),
-          child: TextField(
-            controller: noteContentController,
-            minLines: 1,
-            maxLines: null,
-            textInputAction: TextInputAction.done, //klavyede tik işareti olmasını sağlar.
-            decoration: const InputDecoration(border: InputBorder.none),
-            onSubmitted: (newValue) async {
-              if (newValue.length > 3) {
-                context.read<NoteCubit>().editNote(note.title, newValue, note);
-                if (state is EditingNoteState) {
-                  note.content = state.newContent;
-                } else {
-                  const SnackBar(content: Text("An error"));
-                }
-              }
-            },
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.top,
+                title: TextField(
+                    controller: noteTitleController,
+                    maxLines: 1,
+                    style: context.theme.textTheme.titleSmall,
+                    textInputAction: TextInputAction.done, //klavyede tik işareti olmasını sağlar.
+                    decoration: const InputDecoration(border: InputBorder.none),
+                    onSubmitted: (newValue) async {
+                      newValue.isNotEmpty
+                      ? context.read<NoteCubit>().editNoteTitle(newValue, note)
+                      : context.read<NoteCubit>().editNoteTitle(note.title, note);
+                    },
+                  ),
+              ),
+            ),
+            SizedBox(height: context.mediumValue,)
+          ],
         );
       },
     );

@@ -1,3 +1,4 @@
+import 'package:agriculture_app/core/constants/note_constants.dart';
 import 'package:agriculture_app/core/extension/context_extension.dart';
 import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
 import 'package:agriculture_app/features/cubit/note/note_state.dart';
@@ -30,28 +31,35 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => NoteCubit(NoteInitialState()),
-        child: BlocBuilder<NoteCubit, NoteState>(
-          builder: (context, state){
-            return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            controller: _scrollController,
-            itemBuilder: (context, index) {
-              if (index == dummyList.length) {
-                return const CupertinoActivityIndicator();
-              }
-              return Padding(
-                padding: context.paddingMediumHorizontal,
-                child: NoteItem(
-                    note: Note.create(title: "title", content: "content"),
-                    noteContentController: TextEditingController()),
-              );
-            },
-            itemCount: dummyList.length + 1,
-            shrinkWrap: true,
+    return BlocBuilder<NoteCubit, NoteState>(
+      builder: (context, state){
+        return context.read<NoteCubit>().allNotes!.isNotEmpty ?
+        GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        controller: _scrollController,
+        itemBuilder: (context, index) {
+          var thisNote = context.read<NoteCubit>().allNotes![index];
+          if (index == dummyList.length) {
+            return const CupertinoActivityIndicator();
+          }
+          return Padding(
+            padding: context.paddingMediumHorizontal,
+            child: NoteItem(
+                noteContentController: TextEditingController.fromValue(
+                TextEditingValue(text: thisNote.content),
+              ),
+                noteTitleController: TextEditingController.fromValue(
+                TextEditingValue(text: thisNote.title),
+              ),
+                note: thisNote,
+                ),
           );
-        }));
+        },
+        itemCount: context.read<NoteCubit>().allNotes!.length,//dummyList.length + 1,
+        shrinkWrap: true,
+      )
+      : const Center(child: Text(NoteConstants.ADD_NOTE));
+    });
   }
 
   void _getMoreList() {
