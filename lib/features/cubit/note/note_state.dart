@@ -9,14 +9,19 @@ class NoteInitialState extends NoteState {
   List<Object?> get props => [];
 }
 
-class AddedNoteState extends NoteState {
-  AddedNoteState(this.newAddedNote);
+class AddingNoteLoadingState extends NoteState {
+  AddingNoteLoadingState();
+  @override
+  List<Object?> get props => [];
+}
+class AddingNoteCompletedState extends NoteState {
+  AddingNoteCompletedState(this.newAddedNote);
   final Note newAddedNote;
   @override
   List<Object?> get props => [newAddedNote];
 }
 
-class EditingNoteState extends NoteState {
+/* class EditingNoteState extends NoteState {
   EditingNoteState(this.newTitle, this.newContent);
   final String newTitle;
   final String newContent;
@@ -29,7 +34,7 @@ class DeleteNoteState extends NoteState {
   @override
   List<Object?> get props => [index];
   DeleteNoteState(this.index);
-}
+} */
 
 class GetBoxState extends NoteState {
   @override
@@ -37,8 +42,8 @@ class GetBoxState extends NoteState {
 }
 
 class GetAllNotesState extends NoteState {
-  GetAllNotesState(this.allTasks);
-  final List<Note>? allTasks;
+  GetAllNotesState(this.allNotes);
+  final List<Note>? allNotes;
   @override
-  List<Object?> get props => [allTasks];
+  List<Object?> get props => [allNotes];
 }

@@ -1,6 +1,10 @@
 import 'package:agriculture_app/core/init/theme/agriculture_theme.dart';
+import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
+import 'package:agriculture_app/features/cubit/note/note_state.dart';
 import 'package:agriculture_app/features/view/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +14,20 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: AgricultureTheme.defaultTheme,
-      home: const BottomNavBar(),
+    return MultiBlocProvider(
+      providers: [
+       /*  BlocProvider(
+          create: (context) => ,
+        ), */
+        BlocProvider(
+          create: (context) => NoteCubit(NoteInitialState()),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: AgricultureTheme.defaultTheme,
+        home: const BottomNavBar(),
+      ),
     );
   }
 }

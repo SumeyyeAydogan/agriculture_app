@@ -13,24 +13,32 @@ class NoteCubit extends Cubit<NoteState> {
   List<int>? keys = [];
 
   addNote(String title, String content) async {
+    emit(AddingNoteLoadingState());
     var newAddedNote = Note.create(title: title, content: content);
     allNotes!.insert(0, newAddedNote);
     //await _localStorage.addTask(task: newAddedTask);
-    emit(AddedNoteState(newAddedNote));
+    emit(AddingNoteCompletedState(newAddedNote));
   }
 
-  editNote(String newTitle, String newContent, Note note) {
+  editNoteTitle(String newTitle, Note note) {
+    emit(AddingNoteLoadingState());
     note.title = newTitle;
+    //_localStorage.updateTask(task: task);
+    emit(AddingNoteCompletedState(note));
+  }
+
+  editNoteContent(String newContent, Note note) {
+    emit(AddingNoteLoadingState());
     note.content = newContent;
     //_localStorage.updateTask(task: task);
-    emit(EditingNoteState(newTitle, newContent));
+    emit(AddingNoteCompletedState(note));
   }
 
-
   deleteTask(Note note, int currentListIndex) async {
+    emit(AddingNoteLoadingState());
     allNotes!.removeAt(currentListIndex);
     //await _localStorage.deleteTask(task: task);
-    emit(DeleteNoteState(note.id));
+    emit(NoteInitialState());
   }
 
   void getAllTaskFromDb() async {
