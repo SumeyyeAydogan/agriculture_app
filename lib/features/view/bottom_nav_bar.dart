@@ -1,13 +1,15 @@
 import 'package:agriculture_app/core/constants/note_constants.dart';
 import 'package:agriculture_app/core/extension/context_extension.dart';
-import 'package:agriculture_app/core/init/theme/agriculture_theme.dart';
 import 'package:agriculture_app/features/cubit/note/note_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/constants/application_constants.dart';
 import '../../core/constants/auth_constants.dart';
+import '../../core/constants/to_do_constants.dart';
 import '../cubit/note/note_cubit.dart';
 import '../cubit/tab/tab_cubit.dart';
+import '../cubit/to_do/to_do_cubit.dart';
+import '../cubit/to_do/to_do_state.dart';
+import 'all_todos_view.dart';
 import 'chat_view.dart';
 import 'home_view.dart';
 import 'notes_view.dart';
@@ -24,8 +26,7 @@ void initState() {}
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   List<Widget?> screenList = [
     const HomePage(),
-    const HomePage(),
-    //const AllToDosPage(),
+    const AllToDosPage(),
     const ChatPage(),
     const NotesPage(),
   ];
@@ -82,12 +83,14 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
                     ),
                   ]),
               body: screenList[state.tabController!.index],
-              floatingActionButton: state.tabController!.index == 3
+              floatingActionButton: state.tabController!.index == 1 || state.tabController!.index == 3
                   ? FloatingActionButton(
                       onPressed: () {
-                        _showAddNoteBottomSheet(context);
+                        state.tabController!.index == 1 
+                        ? _showAddTaskBottomSheet(context)
+                        : _showAddNoteBottomSheet(context);
                       },
-                      backgroundColor: context.theme.colorScheme.error,
+                      backgroundColor: context.theme.colorScheme.primary,
                       child: const Icon(Icons.add),
                     )
                   : null,
@@ -151,6 +154,59 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
                           var noteContent = value;
                           Navigator.of(context).pop();
                           await context.read<NoteCubit>().addNote(noteTitle, noteContent);
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        });
+  }
+   _showAddTaskBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: context.paddingTopKeyboard, //klavyenin üstüne koyar
+            width: context.width,
+            child: BlocBuilder<ToDoCubit, ToDoState>(
+              builder: (context, state) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min, //içerik arttıkça bottomSheet boyutunu artırıyor
+                  children: [
+                    ListTile(
+                      title: TextField(
+                        autofocus: true,
+                        style: const TextStyle(fontSize: 20),
+                        decoration: const InputDecoration(
+                          hintText: ToDoConstants.TYPE_TASK,
+                          border: InputBorder.none, //alttatki çizgiyi kaldırdı
+                        ),
+                        onSubmitted: (value) async {
+                          Navigator.of(context).pop();
+                          if (value.length > 3) {
+                            /* context.select<ToDoCubit, ToDoState>(
+                                (ToDoCubit cubit) => cubit.state.deger); 
+                                Tek bir state ve tek değer varsa içerisinde bu şekilde erişebiliriz.
+                                */
+                            await context.read<ToDoCubit>().setDate(context, value);
+                            if (state is SetDateState) {
+                              if (state.initialDate != null) {
+                                await context
+                                    .read<ToDoCubit>()
+                                    .addTask(value, state.initialDate);
+                              }
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text(AuthConstants.VALIDATE_FORM_ERROR),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
                         },
                       ),
                     ),

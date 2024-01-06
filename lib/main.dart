@@ -5,6 +5,8 @@ import 'package:agriculture_app/features/view/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/cubit/to_do/to_do_cubit.dart';
+import 'features/cubit/to_do/to_do_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-       /*  BlocProvider(
-          create: (context) => ,
-        ), */
+        BlocProvider(
+          create: (context) => ToDoCubit(ToDoInitialState()),
+        ),
         BlocProvider(
           create: (context) => NoteCubit(NoteInitialState()),
         ),
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), 
+      ),
     );
   }
 }
