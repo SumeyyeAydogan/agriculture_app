@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   List<Widget?> screenList = [
     const HomePage(),
     const AllToDosPage(),
-    const ChatPage(),
+    ChatPage(),
     const NotesPage(),
   ];
   List<String> screenNameList = [

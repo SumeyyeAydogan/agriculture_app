@@ -6,11 +6,9 @@ import '../../features/cubit/to_do/to_do_state.dart';
 import '../../features/model/to_do/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  final Task task;
+  final TaskModel task;
   final TextEditingController taskNameController;
-  const TaskItem(
-      {Key? key, required this.task, required this.taskNameController})
-      : super(key: key);
+  const TaskItem({Key? key, required this.task, required this.taskNameController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +33,7 @@ class TaskItem extends StatelessWidget {
             title: task.isCompleted
                 ? Text(
                     task.name,
-                    style: const TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey),
+                    style: const TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey),
                   )
                 : TextField(
                     controller: taskNameController,
@@ -63,9 +59,7 @@ class TaskItem extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: task.isCompleted
-                      ? Colors.green
-                      : Colors.white, 
+                  color: task.isCompleted ? Colors.green : Colors.white,
                   border: Border.all(color: Colors.grey, width: 0.8),
                 ),
                 child: const Icon(
