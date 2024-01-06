@@ -1,7 +1,6 @@
-/* import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../product/widget/note_item.dart';
-import '../../product/widget/task_item.dart';
+import '../../product/widget/task_list_item.dart';
 import '../cubit/to_do/to_do_cubit.dart';
 import '../cubit/to_do/to_do_state.dart';
 
@@ -13,21 +12,15 @@ class AllToDosPage extends StatelessWidget {
     return BlocConsumer<ToDoCubit, ToDoState>(
       listener: (context, state) {
         if (state is SetDateState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("${state.initialDate}"),
-                        backgroundColor: Colors.red,
-                      ));
           if (state.initialDate != null) {
-                            context
-                                .read<ToDoCubit>()
-                                .addTask(state.newAddedTask.name, state.initialDate);
-                          }            
+            context.read<ToDoCubit>().addTask(state.newAddedTask.name, state.initialDate);
+          }
         }
         if (state is AddedTaskState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("${state.newAddedTask.name}"),
-                        backgroundColor: Colors.blue,
-                      ));        
+            content: Text("${state.newAddedTask.name}"),
+            backgroundColor: Colors.blue,
+          ));
         }
       },
       builder: (context, state) {
@@ -42,7 +35,7 @@ class AllToDosPage extends StatelessWidget {
                     Icons.delete,
                     color: Colors.grey,
                   )),
-              key: UniqueKey(), //key(this.id yapmıştım önce)
+              key: UniqueKey(),
               onDismissed: (direction) {
                 context.read<ToDoCubit>().deleteTask(thisTask, index);
               },
@@ -59,4 +52,3 @@ class AllToDosPage extends StatelessWidget {
     );
   }
 }
- */
