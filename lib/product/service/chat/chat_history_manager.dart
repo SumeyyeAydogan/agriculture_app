@@ -5,34 +5,31 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:xml2json/xml2json.dart';
 
-class ChatManager {
-  static ChatManager? _instance;
-  static ChatManager get instance {
-    _instance ??= ChatManager._init();
+class ChatHistoryManager {
+  static ChatHistoryManager? _instance;
+  static ChatHistoryManager get instance {
+    _instance ??= ChatHistoryManager._init();
     return _instance!;
   }
 
-  Uri get _baseUri =>
-      Uri.parse("");
+  Uri get _baseUri => Uri.parse("");
 
-  ChatManager._init();
+  ChatHistoryManager._init();
 
-  Future<String?> askQuestionToGpt({required MessageModel model}) async {
+  Future<List<MessageModel>> fetchMessagesFromDB({required MessageModel model}) async {
     Xml2Json forConversion = Xml2Json();
     String answer = "";
     Response webReply = await http.post(
       _baseUri,
-      headers: {
-      },
+      headers: {},
       body: utf8.encode(answer),
     );
 
     forConversion.parse(webReply.body);
     String jsonString = forConversion.toParker();
     Map mainData = (jsonDecode(jsonString) as Map);
-    dynamic dataSent = mainData[":"][":"]
-        [""][""];
+    dynamic dataSent = mainData[":"][":"][""][""];
 
-    return dataSent.toString();
+    return dataSent;
   }
 }

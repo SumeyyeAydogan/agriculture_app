@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class AgricultureTheme {
   static final timePickerTheme = TimePickerThemeData(
       confirmButtonStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-    const Color(0xfffcb064),
+      backgroundColor: MaterialStateProperty.all<Color>(
+    //const Color(0xfffcb064),
+    Colors.blue,
   )),
   cancelButtonStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-    const Color(0xfffcb064),
+    //const Color(0xfffcb064),
+    Colors.purple,
   )),
   backgroundColor: const Color(0xfffdc893)
   );

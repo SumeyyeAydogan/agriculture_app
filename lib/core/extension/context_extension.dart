@@ -14,6 +14,7 @@ extension MediaQueryExtension on BuildContext {
   double get mediumLowValue => height * 0.015;
   double get highValue => height * 0.1;
   double get extraHighValue => height * 0.15;
+  double get textFieldValue => width * 0.96;
 }
 
 extension ThemeExtension on BuildContext {
@@ -29,6 +30,7 @@ extension PaddingExtensionAll on BuildContext {
   EdgeInsets get paddingLow => EdgeInsets.all(lowValue);
   EdgeInsets get paddingNormal => EdgeInsets.all(normalValue);
   EdgeInsets get paddingMedium => EdgeInsets.all(mediumValue);
+  EdgeInsets get paddingMediumLow => EdgeInsets.all(mediumLowValue);
   EdgeInsets get paddingHigh => EdgeInsets.all(highValue);
 }
 

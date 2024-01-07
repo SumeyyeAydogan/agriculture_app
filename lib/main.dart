@@ -1,4 +1,5 @@
 import 'package:agriculture_app/core/init/theme/agriculture_theme.dart';
+import 'package:agriculture_app/features/cubit/chat/chat_cubit.dart';
 import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
 import 'package:agriculture_app/features/cubit/note/note_state.dart';
 import 'package:agriculture_app/features/view/bottom_nav_bar.dart';
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => ToDoCubit(ToDoInitialState()),
+        ),
+        BlocProvider(
+          create: (context) => MessagingCubit(),
         ),
         BlocProvider(
           create: (context) => NoteCubit(NoteInitialState()),

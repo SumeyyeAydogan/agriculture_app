@@ -46,7 +46,7 @@ class NoteItem extends StatelessWidget {
                   maxLines: null,
                   textInputAction: TextInputAction.done, //klavyede ok işareti olmasını sağlar.
                   decoration: const InputDecoration(border: InputBorder.none),
-                  onSubmitted: (newValue) async {
+                  onSubmitted: (newValue) {
                     if (newValue.length > 3) {
                       context.read<NoteCubit>().editNoteContent(newValue, note);
                     }

@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   List<Widget?> screenList = [
     const HomePage(),
     const AllToDosPage(),
-    ChatPage(),
+     ChatPage(),
     const NotesPage(),
   ];
   List<String> screenNameList = [
@@ -187,10 +187,6 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
                         onSubmitted: (value) async {
                           Navigator.of(context).pop();
                           if (value.length > 3) {
-                            /* context.select<ToDoCubit, ToDoState>(
-                                (ToDoCubit cubit) => cubit.state.deger); 
-                                Tek bir state ve tek değer varsa içerisinde bu şekilde erişebiliriz.
-                                */
                             await context.read<ToDoCubit>().setDate(context, value);
                             if (state is SetDateState) {
                               if (state.initialDate != null) {
