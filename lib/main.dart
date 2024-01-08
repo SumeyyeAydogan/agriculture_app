@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'AgriCulture App',
         theme: AgricultureTheme.defaultTheme,
         home: const BottomNavBar(),
       ),

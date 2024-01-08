@@ -15,7 +15,8 @@ class MessagingCubit extends Cubit<MessagingState> {
     emit(MessagingLoadingState());
     try {
       MessageModel model = MessageModel.create(message: message);
-      messageList.insert(0, model);
+      //messageList.insert(0, model);
+      messageList.add(model);
       emit(MessagingCompletedState(messageList));
       //await getMessage(model);
     } catch (e) {
@@ -41,9 +42,21 @@ class MessagingCubit extends Cubit<MessagingState> {
     try {
       //final List<MessageModel> oldMessages = await ChattingHistoryManager.instance.fetchMessagesFromDB();
       //messageList = response;
+      var defaultMessage = MessageModel.create(message: "ChatGpt'ye soru sor");
+      defaultMessage.isSenderGpt = true;
+      //messageList.insert(0, defaultMessage);
+      messageList.add(defaultMessage);
       emit(MessagingCompletedState(messageList));
     } catch (e) {
       emit(MessagingErrorState(ErrorConstants.GETTING_MESSAGE_ERROR));
     }
   }
 }
+
+/* Iterable<MessageModel>
+
+An [Iterable] of the objects in this list in reverse order.
+
+final numbers = <String>['two', 'three', 'four'];
+final reverseOrder = numbers.reversed;
+print(reverseOrder.toList()); // [four, three, two] */
