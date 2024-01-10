@@ -5,7 +5,7 @@ class MessageModel {
 
   bool isSenderGpt;
 
-  final String message;
+  String message;
 
   final DateTime? createdAt;
 
