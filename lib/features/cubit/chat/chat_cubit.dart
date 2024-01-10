@@ -9,16 +9,16 @@ class MessagingCubit extends Cubit<MessagingState> {
   MessagingCubit() : super(MessagingInitialState()) {
     loadInitialMessages();
   }
-  late List<MessageModel> messageList = [MessageModel.create(message: "cubitten geldi")];
+  List<MessageModel> messageList = [];
 
-  void sendMessage(String message) {
+  void sendMessage(String message) async {
     emit(MessagingLoadingState());
     try {
       MessageModel model = MessageModel.create(message: message);
       //messageList.insert(0, model);
       messageList.add(model);
       emit(MessagingCompletedState(messageList));
-      //await getMessage(model);
+      await getMessage(model);
     } catch (e) {
       emit(MessagingErrorState(ErrorConstants.SENDING_MESSAGE_ERROR));
     }
@@ -27,10 +27,11 @@ class MessagingCubit extends Cubit<MessagingState> {
   Future<void> getMessage(MessageModel model) async {
     emit(MessagingLoadingState());
     try {
-      final response = await ChattingManager.instance.askQuestionToGpt(model: model);
-      final answer = MessageModel.create(message: response!);
+      String? response = await ChattingManager.instance.askQuestionToGpt(question: model.message);
+      response = splitString(response!, 45);
+      final answer = MessageModel.create(message: response);
       answer.isSenderGpt = true;
-      messageList.insert(0, answer);
+      messageList.add(answer);
       emit(MessagingCompletedState(messageList));
     } catch (e) {
       emit(MessagingErrorState(ErrorConstants.GETTING_MESSAGE_ERROR));
@@ -44,14 +45,29 @@ class MessagingCubit extends Cubit<MessagingState> {
       //messageList = response;
       var defaultMessage = MessageModel.create(message: "ChatGpt'ye soru sor");
       defaultMessage.isSenderGpt = true;
-      //messageList.insert(0, defaultMessage);
-      messageList.add(defaultMessage);
+      messageList.addAll([defaultMessage]);
       emit(MessagingCompletedState(messageList));
     } catch (e) {
       emit(MessagingErrorState(ErrorConstants.GETTING_MESSAGE_ERROR));
     }
   }
 }
+
+String splitString(String input, int chunkSize) {
+  StringBuffer buffer = StringBuffer();
+
+  for (int i = 0; i < input.length; i += chunkSize) {
+    int end = (i + chunkSize < input.length) ? i + chunkSize : input.length;
+    buffer.write(input.substring(i, end));
+    if (end != input.length) {
+      buffer.write('\n'); // Sadece son parça değilse yeni satır ekle
+    }
+  }
+
+  return buffer.toString();
+}
+
+
 
 /* Iterable<MessageModel>
 

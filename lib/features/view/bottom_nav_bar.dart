@@ -25,18 +25,18 @@ void initState() {}
 
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   List<Widget?> screenList = [
-    const HomePage(),
+     HomePage(),
     const AllToDosPage(),
      ChatPage(),
     const NotesPage(),
   ];
   List<String> screenNameList = [
-    "Home Page",
-    "To Do Page",
-    "Chat Page",
-    "Notes Page",
+    "Anasayfa",
+    "Yapılacaklar",
+    "Chat GPT",
+    "Notlar",
   ];
-  String _currentPage = "Home Page";
+  String _currentPage = "Anasayfa";
   get currentPage => _currentPage;
 
   @override

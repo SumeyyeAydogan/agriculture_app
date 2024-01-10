@@ -46,7 +46,11 @@ class MessageItem extends StatelessWidget {
                       color: context.theme.colorScheme.primary,
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: Radius.circular(20))
                     ),
-                    child: Text(state.messages[index].message, style: const TextStyle(color: Colors.white),),
+                    child: Text(
+                      state.messages[index].message, 
+                      style: const TextStyle(color: Colors.white),
+                      maxLines: null,
+                      ),
                   ),
                 ),
               ],
