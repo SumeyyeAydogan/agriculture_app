@@ -17,9 +17,10 @@ class AllToDosPage extends StatelessWidget {
           }
         }
         if (state is AddedTaskState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("${state.newAddedTask.name}"),
-            backgroundColor: Colors.blue,
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+            content: Text("Görev Eklendi!"),
+            backgroundColor: Colors.greenAccent,
           ));
         }
       },

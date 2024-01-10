@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          Padding(padding: const EdgeInsets.all(15.0), child: topBarMenu()),
+          const Padding(padding: EdgeInsets.all(15.0), child: TopBarMenu()),
           //buildSlider(),
           ListView.builder(
             shrinkWrap: true,
@@ -62,40 +62,40 @@ class Post {
 class PostCard extends StatelessWidget {
   final Post post;
 
-  PostCard({required this.post});
+  const PostCard({required this.post});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(post.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
+            Text(post.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
             Text(post.content),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Yayınlanma zamanı: ${post.timestamp}'),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Yazar: ${post.username}'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton.icon(
                   // Beğeni butonu
-                  icon: Icon(Icons.thumb_up),
-                  label: Text('Beğen'),
+                  icon: Icon(Icons.thumb_up, color: context.theme.colorScheme.primary,),
+                  label: const Text('Beğen', selectionColor: Colors.black,),
                   onPressed: () {
                     // Beğeni işlemi
                   },
                 ),
                 TextButton.icon(
                   // Yorum butonu
-                  icon: Icon(Icons.comment),
-                  label: Text('Yorum Yap'),
+                  icon: Icon(Icons.comment, color: context.theme.colorScheme.primary,),
+                  label: const Text('Yorum Yap', selectionColor: Colors.black,),
                   onPressed: () {
                     // Yorum yapma işlemi
                   },
@@ -109,16 +109,16 @@ class PostCard extends StatelessWidget {
   }
 }
 
-class topBarMenu extends StatefulWidget {
-  const topBarMenu({
+class TopBarMenu extends StatefulWidget {
+  const TopBarMenu({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<topBarMenu> createState() => _topBarMenuState();
+  State<TopBarMenu> createState() => _TopBarMenuState();
 }
 
-class _topBarMenuState extends State<topBarMenu> {
+class _TopBarMenuState extends State<TopBarMenu> {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
