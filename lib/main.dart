@@ -1,4 +1,13 @@
+import 'package:agriculture_app/core/init/theme/agriculture_theme.dart';
+import 'package:agriculture_app/features/cubit/chat/chat_cubit.dart';
+import 'package:agriculture_app/features/cubit/note/note_cubit.dart';
+import 'package:agriculture_app/features/cubit/note/note_state.dart';
+import 'package:agriculture_app/features/view/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/cubit/to_do/to_do_cubit.dart';
+import 'features/cubit/to_do/to_do_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,13 +17,24 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ToDoCubit(ToDoInitialState()),
+        ),
+        BlocProvider(
+          create: (context) => MessagingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => NoteCubit(NoteInitialState()),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'AgriCulture App',
+        theme: AgricultureTheme.defaultTheme,
+        home: const BottomNavBar(),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -61,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), 
+      ),
     );
   }
 }
