@@ -1,5 +1,4 @@
 import 'package:agriculture_app/core/extension/context_extension.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,7 +33,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  CarouselSlider buildSlider() {
+  /* CarouselSlider buildSlider() {
     return CarouselSlider(
       options: CarouselOptions(enlargeCenterPage: true, autoPlay: true, viewportFraction: 0.9),
       items: photoList.map<Widget>((index) {
@@ -47,7 +46,7 @@ class HomePage extends StatelessWidget {
         );
       }).toList(),
     );
-  }
+  } */
 }
 
 class Post {
